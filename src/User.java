@@ -38,11 +38,18 @@ public class User {
         updateReputation(AnsReputation);
         return answer;
     }
-    private synchronized void updateReputation(int val) {
+    public synchronized void updateReputation(int val) {
         reputation+=val;
         if (reputation<0){
             reputation=0;
         }
+    }
+    public Comment addComment(Commentable commentable, String content){
+        Comment comment= new Comment(this,content);
+        comments.add(comment);
+        commentable.addComment(comment);
+        updateReputation(ComReputation);
+        return comment;
     }
 
     public int getId() {
@@ -62,14 +69,14 @@ public class User {
     }
 
     public List<Question> getQuestions() {
-        return questions;
+        return new ArrayList<>(questions);
     }
 
     public List<Answer> getAnswers() {
-        return answers;
+        return new ArrayList<>(answers);
     }
 
     public List<Comment> getComments() {
-        return comments;
+        return new ArrayList<>(comments);
     }
 }
